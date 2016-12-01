@@ -38,7 +38,6 @@ public class LabelLayout extends FrameLayout {
     private final int mLabelTextSize;
     private final int mLabelTextColor;
 
-    private final Path mLabelPath;
     private final Paint mBackgroundPaint;
     private final Paint mTextPaint;
 
@@ -59,26 +58,22 @@ public class LabelLayout extends FrameLayout {
         TintTypedArray tintTypedArray = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.LabelLayout);
         mLabelDistance = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelDistance, 0);
         mLabelHeight = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelHeight, 0);
-        mLabelBackground = tintTypedArray.getColor(R.styleable.LabelLayout_labelBackground, Color.BLACK);
+        mLabelBackground = tintTypedArray.getColor(R.styleable.LabelLayout_labelBackground, new Paint().getColor());
         mLabelGravity = Gravity.values()[tintTypedArray.getInteger(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
-
         mLabelText = tintTypedArray.getString(R.styleable.LabelLayout_labelText);
-        mLabelTextSize = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, -1);
+        mLabelTextSize = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, (int) new Paint().getTextSize());
         mLabelTextColor = tintTypedArray.getColor(R.styleable.LabelLayout_labelTextColor, Color.BLACK);
         tintTypedArray.recycle();
 
-        // Create the region of the label
-        mLabelPath = new Path();
-
-        // Setup the paint for the label background
+        // Setup background paint
         mBackgroundPaint = new Paint();
         mBackgroundPaint.setDither(true);
-        mBackgroundPaint.setAntiAlias(true);
         mBackgroundPaint.setStyle(Paint.Style.STROKE);
+        mBackgroundPaint.setAntiAlias(true);
         mBackgroundPaint.setStrokeJoin(Paint.Join.ROUND);
         mBackgroundPaint.setStrokeCap(Paint.Cap.SQUARE);
 
-        // Setup the paint for the label text
+        // Setup text paint
         mTextPaint = new Paint();
         mTextPaint.setDither(true);
         mTextPaint.setAntiAlias(true);
@@ -90,69 +85,92 @@ public class LabelLayout extends FrameLayout {
     public void onDrawForeground(Canvas canvas) {
         super.onDrawForeground(canvas);
 
-        // Calculate start and end positions of label
-        final int vertexToMid = (int) (Math.sqrt(2) * (mLabelDistance + mLabelHeight / 2.0));
-        int startX;
-        int startY;
-        int endX;
-        int endY;
-        switch (mLabelGravity) {
+        // Calculate label region
+        Path bisectorPath = new Path();
+        int[] bisectorCoordinates = calculateBisectorCoordinates(mLabelDistance, mLabelHeight, mLabelGravity);
+        bisectorPath.moveTo(bisectorCoordinates[0], bisectorCoordinates[1]);
+        bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
+
+        // Draw background
+        mBackgroundPaint.setStrokeWidth(mLabelHeight);
+        mBackgroundPaint.setColor(mLabelBackground);
+        canvas.drawPath(bisectorPath, mBackgroundPaint);
+
+        // Draw text
+        mTextPaint.setTextSize(mLabelTextSize);
+        mTextPaint.setColor(mLabelTextColor);
+        float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight);
+        canvas.drawTextOnPath(mLabelText, bisectorPath, offsets[0], offsets[1], mTextPaint);
+    }
+
+    private int calculateBisectorIntersectPosition(int distance, int height) {
+        return (int) (Math.sqrt(2) * (distance + (height / 2)));
+    }
+
+    private int[] calculateBisectorCoordinates(int distance, int height, Gravity gravity) {
+        final int bisectorIntersectPosition = calculateBisectorIntersectPosition(distance, height);
+        int[] results = new int[4];
+
+        int bisectorStartX;
+        int bisectorStartY;
+        int bisectorEndX;
+        int bisectorEndY;
+        switch (gravity) {
             case TOP_RIGHT:
-                startY = 0;
-                startX = getMeasuredWidth() - vertexToMid;
-                endX = getMeasuredWidth();
-                endY = vertexToMid;
+                bisectorStartY = 0;
+                bisectorStartX = getMeasuredWidth() - bisectorIntersectPosition;
+                bisectorEndX = getMeasuredWidth();
+                bisectorEndY = bisectorIntersectPosition;
                 break;
 
             case BOTTOM_RIGHT:
-                startX = getMeasuredWidth() - vertexToMid;
-                startY = getMeasuredHeight();
-                endX = getMeasuredWidth();
-                endY = getMeasuredHeight() - vertexToMid;
+                bisectorStartX = getMeasuredWidth() - bisectorIntersectPosition;
+                bisectorStartY = getMeasuredHeight();
+                bisectorEndX = getMeasuredWidth();
+                bisectorEndY = getMeasuredHeight() - bisectorIntersectPosition;
                 break;
 
             case BOTTOM_LEFT:
-                startX = 0;
-                startY = getMeasuredHeight() - vertexToMid;
-                endX = vertexToMid;
-                endY = getMeasuredHeight();
+                bisectorStartX = 0;
+                bisectorStartY = getMeasuredHeight() - bisectorIntersectPosition;
+                bisectorEndX = bisectorIntersectPosition;
+                bisectorEndY = getMeasuredHeight();
                 break;
 
             default:
-                startX = 0;
-                startY = vertexToMid;
-                endX = vertexToMid;
-                endY = 0;
+                bisectorStartX = 0;
+                bisectorStartY = bisectorIntersectPosition;
+                bisectorEndX = bisectorIntersectPosition;
+                bisectorEndY = 0;
                 break;
-
         }
-        mLabelPath.moveTo(startX, startY);
-        mLabelPath.lineTo(endX, endY);
 
-        // Set background paint parameter
-        mBackgroundPaint.setStrokeWidth(mLabelHeight);
-        mBackgroundPaint.setColor(mLabelBackground);
+        results[0] = bisectorStartX;
+        results[1] = bisectorStartY;
+        results[2] = bisectorEndX;
+        results[3] = bisectorEndY;
 
-        // Set text paint parameter
-        if (mLabelTextSize != -1) {
-            mTextPaint.setTextSize(mLabelTextSize);
-        }
-        mTextPaint.setColor(mLabelTextColor);
+        return results;
+    }
 
-        // Draw background
-        canvas.drawPath(mLabelPath, mBackgroundPaint);
+    private float[] calculateTextOffsets(String text, Paint paint, int distance, int height) {
+        float[] offsets = new float[2];
 
-        // Draw text
         Rect textBounds = new Rect();
-        mTextPaint.getTextBounds(mLabelText, 0, mLabelText.length(), textBounds);
-        float hOffset = (float) (vertexToMid / Math.sqrt(2) - textBounds.width() / 2.0);
+        paint.getTextBounds(text, 0, text.length(), textBounds);
+
+        float hOffset = (float) (calculateBisectorIntersectPosition(distance, height) / Math.sqrt(2) - textBounds.width() / 2.0);
         float vOffset;
-        if (mLabelDistance >= mLabelHeight) {
+        if (distance >= height) {
             vOffset = (textBounds.height() * 0.5f);
         } else {
-            vOffset = (textBounds.height() * ((mLabelHeight - mLabelDistance) / mLabelHeight * 0.5f + 0.5f));
+            vOffset = (textBounds.height() * ((height - distance) / height * 0.5f + 0.5f));
         }
-        canvas.drawTextOnPath(mLabelText, mLabelPath, hOffset, vOffset, mTextPaint);
+
+        offsets[0] = hOffset;
+        offsets[1] = vOffset;
+
+        return offsets;
     }
 
     public enum Gravity {
