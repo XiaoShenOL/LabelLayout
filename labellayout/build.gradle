@@ -1,5 +1,23 @@
 apply plugin: 'com.android.library'
 
+ext {
+    currentVersionCode = 2016120100
+    currentVersionName = '0.0.1'
+
+    groupId = 'au.com.dardle'
+    artifactId = 'labellayout'
+
+    packageRepo = 'maven'
+    packageName = 'LabelLayout'
+    packageDescription = 'A layout to display a label text on top of another view'
+    packageWebsite = 'https://github.com/luxiliu/LabelLayout'
+    packageIssueTracker = 'https://github.com/luxiliu/LabelLayout/issues'
+    packageVCS = 'https://github.com/luxiliu/LabelLayout.git'
+    packageLicenses = ["Apache-2.0"]
+    packageLicenseName = 'The Apache License, Version 2.0'
+    packageLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
@@ -7,8 +25,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 2016120100
-        versionName "0.0.1"
+        versionCode currentVersionCode
+        versionName currentVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -19,6 +37,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -28,4 +49,99 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.1'
     testCompile 'junit:junit:4.12'
+}
+
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = groupId
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                groupId groupId
+                artifactId artifactId
+
+                name packageName
+                description packageDescription
+                url packageWebsite
+
+                licenses {
+                    license {
+                        name packageName
+                        url packageLicenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        name 'Luxi Liu'
+                        email 'luxi.liu@gmail.com'
+                    }
+                }
+                scm {
+                    connection packageVCS
+                    developerConnection packageVCS
+                    url packageWebsite
+                }
+            }
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+version = currentVersionName
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// Bintray
+bintray {
+    user = LABELLAYOUT_BINTRAY_USER
+    key = LABELLAYOUT_BINTRAY_APIKEY
+
+    configurations = ['archives']
+    pkg {
+        repo = packageRepo
+        name = packageName
+        desc = packageDescription
+        websiteUrl = packageWebsite
+        issueTrackerUrl = packageIssueTracker
+        vcsUrl = packageVCS
+        licenses = packageLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            gpg {
+                sign = true
+                passphrase = LABELLAYOUT_BINTRAY_GPS_PASSWORD
+            }
+        }
+    }
 }
