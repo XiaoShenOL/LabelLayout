@@ -25,18 +25,21 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.FrameLayout;
 
-
+/**
+ * LabelLayout provides a label at the corner to display text
+ */
 public class LabelLayout extends FrameLayout {
-    private final int mLabelDistance;
-    private final int mLabelHeight;
-    private final int mLabelBackground;
-    private final Gravity mLabelGravity;
+    private int mLabelDistance;
+    private int mLabelHeight;
+    private int mLabelBackgroundColor;
+    private Gravity mLabelGravity;
 
-    private final String mLabelText;
-    private final int mLabelTextSize;
-    private final int mLabelTextColor;
+    private String mLabelText;
+    private int mLabelTextSize;
+    private int mLabelTextColor;
 
     private final Paint mBackgroundPaint;
     private final Paint mTextPaint;
@@ -58,7 +61,7 @@ public class LabelLayout extends FrameLayout {
         TintTypedArray tintTypedArray = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.LabelLayout);
         mLabelDistance = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelDistance, 0);
         mLabelHeight = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelHeight, 0);
-        mLabelBackground = tintTypedArray.getColor(R.styleable.LabelLayout_labelBackground, new Paint().getColor());
+        mLabelBackgroundColor = tintTypedArray.getColor(R.styleable.LabelLayout_labelBackground, new Paint().getColor());
         mLabelGravity = Gravity.values()[tintTypedArray.getInteger(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
         mLabelText = tintTypedArray.getString(R.styleable.LabelLayout_labelText);
         mLabelTextSize = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, (int) new Paint().getTextSize());
@@ -92,8 +95,9 @@ public class LabelLayout extends FrameLayout {
         bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
 
         // Draw background
+        //noinspection SuspiciousNameCombination
         mBackgroundPaint.setStrokeWidth(mLabelHeight);
-        mBackgroundPaint.setColor(mLabelBackground);
+        mBackgroundPaint.setColor(mLabelBackgroundColor);
         canvas.drawPath(bisectorPath, mBackgroundPaint);
 
         // Draw text
@@ -101,6 +105,140 @@ public class LabelLayout extends FrameLayout {
         mTextPaint.setColor(mLabelTextColor);
         float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight);
         canvas.drawTextOnPath(mLabelText, bisectorPath, offsets[0], offsets[1], mTextPaint);
+    }
+
+    /**
+     * Get the distance from vertex to label's edge
+     *
+     * @return The distance from vertex to label's edge
+     */
+    public int getLabelDistance() {
+        return mLabelDistance;
+    }
+
+    /**
+     * Set the distance from vertex to label's edge
+     *
+     * @param labelDistance The distance from vertex to label's edge
+     */
+    public void setLabelDistance(int labelDistance) {
+        mLabelDistance = labelDistance;
+        invalidate();
+    }
+
+    /**
+     * Get the height of label
+     *
+     * @return The height of label
+     */
+    public int getLabelHeight() {
+        return mLabelHeight;
+    }
+
+    /**
+     * Set the height of label
+     *
+     * @param labelHeight The height of label
+     */
+    public void setLabelHeight(int labelHeight) {
+        mLabelHeight = labelHeight;
+        invalidate();
+    }
+
+    /**
+     * Get the background color of label
+     *
+     * @return The background color of label
+     */
+    public int getLabelBackgroundColor() {
+        return mLabelBackgroundColor;
+    }
+
+    /**
+     * Set the background color of label
+     *
+     * @param labelBackgroundColor The background color of label
+     */
+    public void setLabelBackgroundColor(int labelBackgroundColor) {
+        mLabelBackgroundColor = labelBackgroundColor;
+        invalidate();
+    }
+
+    /**
+     * Get the gravity of label
+     *
+     * @return The gravity of label
+     * @see Gravity
+     */
+    public Gravity getLabelGravity() {
+        return mLabelGravity;
+    }
+
+    /**
+     * Set the gravity of label
+     *
+     * @param labelGravity The gravity of label
+     */
+    public void setLabelGravity(Gravity labelGravity) {
+        mLabelGravity = labelGravity;
+        invalidate();
+    }
+
+    /**
+     * Get the text of label
+     *
+     * @return The text of label
+     */
+    public String getLabelText() {
+        return mLabelText;
+    }
+
+    /**
+     * Set the text of label
+     *
+     * @param labelText The text of label
+     */
+    public void setLabelText(String labelText) {
+        mLabelText = labelText;
+        invalidate();
+    }
+
+    /**
+     * Get the text size of label
+     *
+     * @return The text size of label
+     */
+    public int getLabelTextSize() {
+        return mLabelTextSize;
+    }
+
+    /**
+     * Set the text size of label
+     *
+     * @param labelTextSize The text size of label
+     */
+    public void setLabelTextSize(int labelTextSize) {
+        mLabelTextSize = labelTextSize;
+        invalidate();
+    }
+
+    /**
+     * Get the text color of label
+     *
+     * @return The text color of label
+     */
+    public int getLabelTextColor() {
+        return mLabelTextColor;
+    }
+
+    /**
+     * Set the text color of label
+     *
+     * @param labelTextColor The text color of label
+     */
+    public void setLabelTextColor(int labelTextColor) {
+        mLabelTextColor = labelTextColor;
+        invalidate();
     }
 
     private int calculateBisectorIntersectPosition(int distance, int height) {
@@ -164,8 +302,10 @@ public class LabelLayout extends FrameLayout {
         if (distance >= height) {
             vOffset = (textBounds.height() * 0.5f);
         } else {
-            vOffset = (textBounds.height() * ((height - distance) / height * 0.5f + 0.5f));
+            vOffset = (textBounds.height() * ((height - distance) / (float) height * 0.5f + 0.5f));
         }
+
+        Log.d(LabelLayout.class.getSimpleName(), String.format("%d, %d, %f", distance, height, vOffset));
 
         offsets[0] = hOffset;
         offsets[1] = vOffset;

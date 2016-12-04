@@ -18,12 +18,13 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <au.com.dardle.widget.LabelLayout
+            android:id="@+id/label_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelBackground="@color/colorPrimary"
+            app:labelBackground="@android:color/black"
             app:labelDistance="24dp"
             app:labelGravity="top_left"
-            app:labelHeight="32dp"
+            app:labelHeight="24dp"
             app:labelText="NEW"
             app:labelTextColor="@android:color/white"
             app:labelTextSize="14sp">
@@ -35,82 +36,133 @@
 
         </au.com.dardle.widget.LabelLayout>
 
-        <au.com.dardle.widget.LabelLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:labelBackground="@color/colorPrimary"
-            app:labelDistance="0dp"
-            app:labelGravity="top_left"
-            app:labelHeight="48dp"
-            app:labelText="NEW"
-            app:labelTextColor="@android:color/white"
-            app:labelTextSize="14sp">
+            android:layout_marginTop="24dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/colorAccent" />
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
 
-        </au.com.dardle.widget.LabelLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Distance" />
 
-        <au.com.dardle.widget.LabelLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:labelBackground="@color/colorPrimary"
-            app:labelDistance="24dp"
-            app:labelGravity="top_right"
-            app:labelHeight="32dp"
-            app:labelText="NEW"
-            app:labelTextColor="@android:color/white"
-            app:labelTextSize="14sp">
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/distance_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/colorAccent" />
+            </TableRow>
 
-        </au.com.dardle.widget.LabelLayout>
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
 
-        <au.com.dardle.widget.LabelLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:labelBackground="@color/colorPrimary"
-            app:labelDistance="24dp"
-            app:labelGravity="bottom_right"
-            app:labelHeight="32dp"
-            app:labelText="NEW"
-            app:labelTextColor="@android:color/white"
-            app:labelTextSize="14sp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Height" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/colorAccent" />
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/height_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-        </au.com.dardle.widget.LabelLayout>
+            </TableRow>
 
-        <au.com.dardle.widget.LabelLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:labelBackground="@color/colorPrimary"
-            app:labelDistance="24dp"
-            app:labelGravity="bottom_left"
-            app:labelHeight="32dp"
-            app:labelText="NEW"
-            app:labelTextColor="@android:color/white"
-            app:labelTextSize="14sp">
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/colorAccent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Color" />
 
-        </au.com.dardle.widget.LabelLayout>
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/color_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Label gravity" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/gravity_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text" />
+
+                <EditText
+                    android:id="@+id/edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="text|textNoSuggestions" />
+
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text size" />
+
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/text_size_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text color" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/text_color_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+        </TableLayout>
 
     </LinearLayout>
+
 </ScrollView>
