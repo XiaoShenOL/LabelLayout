@@ -1,7 +1,7 @@
 language: android
 
 notifications:
-  email: false 
+  email: false
 
 jdk:
   - oraclejdk8
