@@ -11,10 +11,26 @@ android {
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            storeFile file("release.keystore")
+            storePassword BADGELAYOUT_SAMPLE_RELEASE_STORE_PASSWORD
+            keyAlias BADGELAYOUT_SAMPLE_RELEASE_KEY_ALIAS
+            keyPassword BADGELAYOUT_SAMPLE_RELEASE_KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "labelayout-" + output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
         }
     }
 }
