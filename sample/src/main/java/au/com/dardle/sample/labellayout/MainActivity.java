@@ -1,6 +1,7 @@
 package au.com.dardle.sample.labellayout;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSeekBar;
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         mLabelLayout.setLabelDistance(distanceSeekBar.getProgress());
         mLabelLayout.setLabelHeight(heightSeekBar.getProgress());
-        mLabelLayout.setLabelBackgroundColor(Color.parseColor(colorSpinner.getSelectedItem().toString().toLowerCase()));
+        mLabelLayout.setLabelBackground(new ColorDrawable(Color.parseColor(colorSpinner.getSelectedItem().toString().toLowerCase())));
         mLabelLayout.setLabelGravity((LabelLayout.Gravity) gravitySpinner.getSelectedItem());
         mLabelLayout.setLabelText(editText.getText().toString());
         mLabelLayout.setLabelTextSize(textSizeSeekBar.getProgress());

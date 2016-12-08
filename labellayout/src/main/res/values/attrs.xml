@@ -4,7 +4,7 @@
     <declare-styleable name="LabelLayout">
         <attr name="labelHeight" format="dimension" />
         <attr name="labelDistance" format="dimension" />
-        <attr name="labelBackground" format="color" />
+        <attr name="labelBackground" format="reference|color" />
         <attr name="labelGravity" format="enum">
             <enum name="top_left" value="0" />
             <enum name="top_right" value="1" />

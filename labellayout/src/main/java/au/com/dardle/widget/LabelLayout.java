@@ -23,6 +23,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -34,14 +36,13 @@ import android.widget.FrameLayout;
 public class LabelLayout extends FrameLayout {
     private int mLabelDistance;
     private int mLabelHeight;
-    private int mLabelBackgroundColor;
+    private Drawable mLabelBackground;
     private Gravity mLabelGravity;
 
     private String mLabelText;
     private int mLabelTextSize;
     private int mLabelTextColor;
 
-    private final Paint mBackgroundPaint;
     private final Paint mTextPaint;
 
     public LabelLayout(Context context) {
@@ -61,20 +62,12 @@ public class LabelLayout extends FrameLayout {
         TintTypedArray tintTypedArray = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.LabelLayout);
         mLabelDistance = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelDistance, 0);
         mLabelHeight = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelHeight, 0);
-        mLabelBackgroundColor = tintTypedArray.getColor(R.styleable.LabelLayout_labelBackground, new Paint().getColor());
+        mLabelBackground = tintTypedArray.getDrawable(R.styleable.LabelLayout_labelBackground);
         mLabelGravity = Gravity.values()[tintTypedArray.getInteger(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
         mLabelText = tintTypedArray.getString(R.styleable.LabelLayout_labelText);
         mLabelTextSize = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, (int) new Paint().getTextSize());
         mLabelTextColor = tintTypedArray.getColor(R.styleable.LabelLayout_labelTextColor, Color.BLACK);
         tintTypedArray.recycle();
-
-        // Setup background paint
-        mBackgroundPaint = new Paint();
-        mBackgroundPaint.setDither(true);
-        mBackgroundPaint.setStyle(Paint.Style.STROKE);
-        mBackgroundPaint.setAntiAlias(true);
-        mBackgroundPaint.setStrokeJoin(Paint.Join.ROUND);
-        mBackgroundPaint.setStrokeCap(Paint.Cap.SQUARE);
 
         // Setup text paint
         mTextPaint = new Paint();
@@ -95,10 +88,16 @@ public class LabelLayout extends FrameLayout {
         bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
 
         // Draw background
-        //noinspection SuspiciousNameCombination
-        mBackgroundPaint.setStrokeWidth(mLabelHeight);
-        mBackgroundPaint.setColor(mLabelBackgroundColor);
-        canvas.drawPath(bisectorPath, mBackgroundPaint);
+        int[] centerCoordinate = calculateCenterCoordinate(mLabelDistance, mLabelHeight, mLabelGravity);
+        int labelHalfWidth = calculateWidth(mLabelDistance, mLabelHeight) / 2;
+        int labelHalfHeight = mLabelHeight / 2;
+        Rect labelRect = new Rect(centerCoordinate[0] - labelHalfWidth, centerCoordinate[1] - labelHalfHeight, centerCoordinate[0] + labelHalfWidth, centerCoordinate[1] + labelHalfHeight);
+        mLabelBackground.setBounds(calculateBackgroundBounds(mLabelBackground, labelRect));
+
+        canvas.save();
+        canvas.rotate(calculateRotateDegree(mLabelGravity), centerCoordinate[0], centerCoordinate[1]);
+        mLabelBackground.draw(canvas);
+        canvas.restore();
 
         // Draw text
         mTextPaint.setTextSize(mLabelTextSize);
@@ -146,21 +145,21 @@ public class LabelLayout extends FrameLayout {
     }
 
     /**
-     * Get the background color of label
+     * Get the background of label
      *
-     * @return The background color of label
+     * @return The background of label
      */
-    public int getLabelBackgroundColor() {
-        return mLabelBackgroundColor;
+    public Drawable getLabelBackground() {
+        return mLabelBackground;
     }
 
     /**
-     * Set the background color of label
+     * Set the background of label
      *
-     * @param labelBackgroundColor The background color of label
+     * @param labelBackground The background of label
      */
-    public void setLabelBackgroundColor(int labelBackgroundColor) {
-        mLabelBackgroundColor = labelBackgroundColor;
+    public void setLabelBackground(Drawable labelBackground) {
+        mLabelBackground = labelBackground;
         invalidate();
     }
 
@@ -241,12 +240,14 @@ public class LabelLayout extends FrameLayout {
         invalidate();
     }
 
-    private int calculateBisectorIntersectPosition(int distance, int height) {
+    // Calculate the absolute position of point intersecting between canvas edge and bisector
+    private int calculateBisectorIntersectAbsolutePosition(int distance, int height) {
         return (int) (Math.sqrt(2) * (distance + (height / 2)));
     }
 
+    // Calculate the starting and ending points coordinates of bisector line
     private int[] calculateBisectorCoordinates(int distance, int height, Gravity gravity) {
-        final int bisectorIntersectPosition = calculateBisectorIntersectPosition(distance, height);
+        final int bisectorIntersectAbsolutePosition = calculateBisectorIntersectAbsolutePosition(distance, height);
         int[] results = new int[4];
 
         int bisectorStartX;
@@ -256,29 +257,29 @@ public class LabelLayout extends FrameLayout {
         switch (gravity) {
             case TOP_RIGHT:
                 bisectorStartY = 0;
-                bisectorStartX = getMeasuredWidth() - bisectorIntersectPosition;
+                bisectorStartX = getMeasuredWidth() - bisectorIntersectAbsolutePosition;
                 bisectorEndX = getMeasuredWidth();
-                bisectorEndY = bisectorIntersectPosition;
+                bisectorEndY = bisectorIntersectAbsolutePosition;
                 break;
 
             case BOTTOM_RIGHT:
-                bisectorStartX = getMeasuredWidth() - bisectorIntersectPosition;
+                bisectorStartX = getMeasuredWidth() - bisectorIntersectAbsolutePosition;
                 bisectorStartY = getMeasuredHeight();
                 bisectorEndX = getMeasuredWidth();
-                bisectorEndY = getMeasuredHeight() - bisectorIntersectPosition;
+                bisectorEndY = getMeasuredHeight() - bisectorIntersectAbsolutePosition;
                 break;
 
             case BOTTOM_LEFT:
                 bisectorStartX = 0;
-                bisectorStartY = getMeasuredHeight() - bisectorIntersectPosition;
-                bisectorEndX = bisectorIntersectPosition;
+                bisectorStartY = getMeasuredHeight() - bisectorIntersectAbsolutePosition;
+                bisectorEndX = bisectorIntersectAbsolutePosition;
                 bisectorEndY = getMeasuredHeight();
                 break;
 
             default:
                 bisectorStartX = 0;
-                bisectorStartY = bisectorIntersectPosition;
-                bisectorEndX = bisectorIntersectPosition;
+                bisectorStartY = bisectorIntersectAbsolutePosition;
+                bisectorEndX = bisectorIntersectAbsolutePosition;
                 bisectorEndY = 0;
                 break;
         }
@@ -291,13 +292,14 @@ public class LabelLayout extends FrameLayout {
         return results;
     }
 
+    // Calculate text horizontal and vertical offset
     private float[] calculateTextOffsets(String text, Paint paint, int distance, int height) {
         float[] offsets = new float[2];
 
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
 
-        float hOffset = (float) (calculateBisectorIntersectPosition(distance, height) / Math.sqrt(2) - textBounds.width() / 2.0);
+        float hOffset = (float) (calculateBisectorIntersectAbsolutePosition(distance, height) / Math.sqrt(2) - textBounds.width() / 2.0);
         float vOffset;
         if (distance >= height) {
             vOffset = (textBounds.height() * 0.5f);
@@ -311,6 +313,105 @@ public class LabelLayout extends FrameLayout {
         offsets[1] = vOffset;
 
         return offsets;
+    }
+
+    private int[] calculateCenterCoordinate(int distance, int height, Gravity gravity) {
+        int[] results = new int[2];
+        int x;
+        int y;
+
+        int centerAbsolutePosition = calculateCenterAbsolutePosition(distance, height);
+        switch (gravity) {
+            default:
+                x = centerAbsolutePosition;
+                y = centerAbsolutePosition;
+                break;
+
+            case TOP_RIGHT:
+                x = getMeasuredWidth() - centerAbsolutePosition;
+                y = centerAbsolutePosition;
+                break;
+
+            case BOTTOM_RIGHT:
+                x = getMeasuredWidth() - centerAbsolutePosition;
+                y = getMeasuredHeight() - centerAbsolutePosition;
+                break;
+
+            case BOTTOM_LEFT:
+                x = centerAbsolutePosition;
+                y = getMeasuredHeight() - centerAbsolutePosition;
+                break;
+
+        }
+
+        results[0] = x;
+        results[1] = y;
+        return results;
+    }
+
+    private int calculateCenterAbsolutePosition(int distance, int height) {
+        return (int) ((distance + height / 2) / Math.sqrt(2));
+    }
+
+    private int calculateWidth(int distance, int height) {
+        return 2 * (distance + height);
+    }
+
+    private Rect calculateBackgroundBounds(Drawable drawable, Rect labelRect) {
+        Rect rect;
+
+        if (drawable instanceof ColorDrawable) {
+            rect = new Rect(labelRect);
+        } else {
+            rect = new Rect();
+
+            if (drawable.getIntrinsicWidth() <= labelRect.width() && drawable.getIntrinsicHeight() <= labelRect.height()) {
+                // No need to scale
+                rect.left = labelRect.centerX() - drawable.getIntrinsicWidth() / 2;
+                rect.top = labelRect.centerY() - drawable.getIntrinsicHeight() / 2;
+                rect.right = labelRect.centerX() + drawable.getIntrinsicWidth() / 2;
+                rect.bottom = labelRect.centerY() + drawable.getIntrinsicHeight() / 2;
+            } else {
+                // Need to scale
+                int width;
+                int height;
+                int ratio = drawable.getIntrinsicWidth() / drawable.getIntrinsicHeight();
+                if (drawable.getIntrinsicWidth() / drawable.getIntrinsicHeight() >= labelRect.width() / labelRect.height()) {
+                    // Scale to fill width
+                    width = labelRect.width();
+                    height = labelRect.width() / ratio;
+                } else {
+                    // Scale to fill height
+                    width = labelRect.height() * ratio;
+                    height = labelRect.height();
+                }
+
+                rect.left = labelRect.centerX() - width / 2;
+                rect.top = labelRect.centerY() - height / 2;
+                rect.right = labelRect.centerX() + width / 2;
+                rect.bottom = labelRect.centerY() + height / 2;
+            }
+        }
+
+        return rect;
+    }
+
+    private float calculateRotateDegree(Gravity gravity) {
+        float degree;
+
+        switch (gravity) {
+            case BOTTOM_RIGHT:
+            default:
+                degree = -45;
+                break;
+
+            case TOP_RIGHT:
+            case BOTTOM_LEFT:
+                degree = 45;
+                break;
+        }
+
+        return degree;
     }
 
     public enum Gravity {
