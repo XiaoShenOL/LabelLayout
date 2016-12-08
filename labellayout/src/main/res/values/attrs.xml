@@ -15,6 +15,10 @@
         <attr name="labelText" format="reference|string" />
         <attr name="labelTextSize" format="reference|dimension" />
         <attr name="labelTextColor" format="reference|color" />
+        <attr name="labelTextDirection" format="enum">
+            <enum name="left_to_right" value="0" />
+            <enum name="right_to_left" value="1" />
+        </attr>
     </declare-styleable>
 
 </resources>

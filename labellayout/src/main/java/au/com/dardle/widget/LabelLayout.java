@@ -42,6 +42,7 @@ public class LabelLayout extends FrameLayout {
     private String mLabelText;
     private int mLabelTextSize;
     private int mLabelTextColor;
+    private TextDirection mLabelTextDirection;
 
     private final Paint mTextPaint;
 
@@ -63,10 +64,11 @@ public class LabelLayout extends FrameLayout {
         mLabelDistance = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelDistance, 0);
         mLabelHeight = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelHeight, 0);
         mLabelBackground = tintTypedArray.getDrawable(R.styleable.LabelLayout_labelBackground);
-        mLabelGravity = Gravity.values()[tintTypedArray.getInteger(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
+        mLabelGravity = Gravity.values()[tintTypedArray.getInt(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
         mLabelText = tintTypedArray.getString(R.styleable.LabelLayout_labelText);
         mLabelTextSize = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, (int) new Paint().getTextSize());
         mLabelTextColor = tintTypedArray.getColor(R.styleable.LabelLayout_labelTextColor, Color.BLACK);
+        mLabelTextDirection = TextDirection.values()[tintTypedArray.getInt(R.styleable.LabelLayout_labelTextDirection, TextDirection.LEFT_TO_RIGHT.ordinal())];
         tintTypedArray.recycle();
 
         // Setup text paint
@@ -81,12 +83,6 @@ public class LabelLayout extends FrameLayout {
     public void onDrawForeground(Canvas canvas) {
         super.onDrawForeground(canvas);
 
-        // Calculate label region
-        Path bisectorPath = new Path();
-        int[] bisectorCoordinates = calculateBisectorCoordinates(mLabelDistance, mLabelHeight, mLabelGravity);
-        bisectorPath.moveTo(bisectorCoordinates[0], bisectorCoordinates[1]);
-        bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
-
         // Draw background
         int[] centerCoordinate = calculateCenterCoordinate(mLabelDistance, mLabelHeight, mLabelGravity);
         int labelHalfWidth = calculateWidth(mLabelDistance, mLabelHeight) / 2;
@@ -100,10 +96,22 @@ public class LabelLayout extends FrameLayout {
         canvas.restore();
 
         // Draw text
+        Path bisectorPath = new Path();
+        int[] bisectorCoordinates = calculateBisectorCoordinates(mLabelDistance, mLabelHeight, mLabelGravity);
+        bisectorPath.moveTo(bisectorCoordinates[0], bisectorCoordinates[1]);
+        bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
+
         mTextPaint.setTextSize(mLabelTextSize);
         mTextPaint.setColor(mLabelTextColor);
         float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight, mLabelGravity);
-        canvas.drawTextOnPath(mLabelText, bisectorPath, offsets[0], offsets[1], mTextPaint);
+        String displayText;
+        if (mLabelTextDirection == TextDirection.LEFT_TO_RIGHT) {
+            displayText = mLabelText;
+        } else {
+            displayText = new StringBuffer(mLabelText).reverse().toString();
+        }
+        canvas.drawTextOnPath(displayText, bisectorPath, offsets[0], offsets[1], mTextPaint);
+
     }
 
     /**
@@ -237,6 +245,25 @@ public class LabelLayout extends FrameLayout {
      */
     public void setLabelTextColor(int labelTextColor) {
         mLabelTextColor = labelTextColor;
+        invalidate();
+    }
+
+    /**
+     * Get text direction
+     *
+     * @return The text direction
+     */
+    public TextDirection getLabelTextDirection() {
+        return mLabelTextDirection;
+    }
+
+    /**
+     * Set text direction
+     *
+     * @param textDirection The text direction
+     */
+    public void setLabelTextDirection(TextDirection textDirection) {
+        mLabelTextDirection = textDirection;
         invalidate();
     }
 
@@ -420,5 +447,9 @@ public class LabelLayout extends FrameLayout {
 
     public enum Gravity {
         TOP_LEFT, TOP_RIGHT, BOTTOM_RIGHT, BOTTOM_LEFT
+    }
+
+    public enum TextDirection {
+        LEFT_TO_RIGHT, RIGHT_TO_LEFT
     }
 }
