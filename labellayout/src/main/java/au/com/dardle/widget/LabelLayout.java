@@ -102,7 +102,7 @@ public class LabelLayout extends FrameLayout {
         // Draw text
         mTextPaint.setTextSize(mLabelTextSize);
         mTextPaint.setColor(mLabelTextColor);
-        float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight);
+        float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight, mLabelGravity);
         canvas.drawTextOnPath(mLabelText, bisectorPath, offsets[0], offsets[1], mTextPaint);
     }
 
@@ -293,7 +293,7 @@ public class LabelLayout extends FrameLayout {
     }
 
     // Calculate text horizontal and vertical offset
-    private float[] calculateTextOffsets(String text, Paint paint, int distance, int height) {
+    private float[] calculateTextOffsets(String text, Paint paint, int distance, int height, Gravity gravity) {
         float[] offsets = new float[2];
 
         Rect textBounds = new Rect();
@@ -304,7 +304,11 @@ public class LabelLayout extends FrameLayout {
         if (distance >= height) {
             vOffset = (textBounds.height() * 0.5f);
         } else {
-            vOffset = (textBounds.height() * ((height - distance) / (float) height * 0.5f + 0.5f));
+            if (gravity.equals(Gravity.TOP_LEFT) || gravity.equals(Gravity.TOP_RIGHT)) {
+                vOffset = (textBounds.height() * (0.5f + (height - distance) / (float) height * 0.5f));
+            } else {
+                vOffset = (textBounds.height() * (0.5f - (height - distance) / (float) height * 0.5f));
+            }
         }
 
         Log.d(LabelLayout.class.getSimpleName(), String.format("%d, %d, %f", distance, height, vOffset));
