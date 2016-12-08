@@ -152,6 +152,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        AppCompatSpinner directionSpinner = (AppCompatSpinner) findViewById(R.id.direction_spinner);
+        ArrayAdapter<LabelLayout.TextDirection> directionArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LabelLayout.TextDirection.values());
+        directionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        directionSpinner.setAdapter(directionArrayAdapter);
+        directionSpinner.setSelection(mLabelLayout.getLabelTextDirection().ordinal());
+        directionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                update();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void update() {
@@ -163,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.edit_text);
         AppCompatSeekBar textSizeSeekBar = (AppCompatSeekBar) findViewById(R.id.text_size_seek_bar);
         AppCompatSpinner textColorSpinner = (AppCompatSpinner) findViewById(R.id.text_color_spinner);
+        AppCompatSpinner textDirectionSpinner = (AppCompatSpinner) findViewById(R.id.direction_spinner);
 
         mLabelLayout.setLabelDistance(distanceSeekBar.getProgress());
         mLabelLayout.setLabelHeight(heightSeekBar.getProgress());
@@ -171,5 +189,6 @@ public class MainActivity extends AppCompatActivity {
         mLabelLayout.setLabelText(editText.getText().toString());
         mLabelLayout.setLabelTextSize(textSizeSeekBar.getProgress());
         mLabelLayout.setLabelTextColor(Color.parseColor(textColorSpinner.getSelectedItem().toString().toLowerCase()));
+        mLabelLayout.setLabelTextDirection((LabelLayout.TextDirection) textDirectionSpinner.getSelectedItem());
     }
 }

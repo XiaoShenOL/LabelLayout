@@ -27,6 +27,7 @@
             app:labelHeight="24dp"
             app:labelText="NEW"
             app:labelTextColor="@android:color/white"
+            app:labelTextDirection="left_to_right"
             app:labelTextSize="14sp">
 
             <View
@@ -155,6 +156,23 @@
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/text_color_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+            <TableRow
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Label gravity" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/direction_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
