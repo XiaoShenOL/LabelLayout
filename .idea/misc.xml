@@ -3,6 +3,8 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0">
       <entry_point TYPE="method" FQNAME="au.com.dardle.widget.LabelLayout int getLabelBackgroundColor()" />
+      <entry_point TYPE="method" FQNAME="au.com.dardle.widget.LabelLayout android.graphics.drawable.Drawable getLabelBackground()" />
+      <entry_point TYPE="method" FQNAME="au.com.dardle.widget.LabelLayout int getLabelTextColor()" />
     </entry_points>
   </component>
   <component name="NullableNotNullManager">
