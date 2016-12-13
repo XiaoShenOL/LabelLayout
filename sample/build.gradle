@@ -7,8 +7,8 @@ android {
         applicationId "au.com.dardle.sample.labellayout"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 2016120900
-        versionName "0.0.3"
+        versionCode 2016121300
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
