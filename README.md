@@ -11,7 +11,7 @@ Download
 --------
 Download via Gradle:
 ```groovy
-compile 'au.com.dardle:labellayout:0.0.3'
+compile 'au.com.dardle:labellayout:1.0.0'
 ```
 
 
