@@ -169,7 +169,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Label gravity" />
+                    android:text="Label text direction" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/direction_spinner"
