@@ -83,35 +83,14 @@ public class LabelLayout extends FrameLayout {
     public void onDrawForeground(Canvas canvas) {
         super.onDrawForeground(canvas);
 
-        // Draw background
-        int[] centerCoordinate = calculateCenterCoordinate(mLabelDistance, mLabelHeight, mLabelGravity);
-        int labelHalfWidth = calculateWidth(mLabelDistance, mLabelHeight) / 2;
-        int labelHalfHeight = mLabelHeight / 2;
-        Rect labelRect = new Rect(centerCoordinate[0] - labelHalfWidth, centerCoordinate[1] - labelHalfHeight, centerCoordinate[0] + labelHalfWidth, centerCoordinate[1] + labelHalfHeight);
-        mLabelBackground.setBounds(calculateBackgroundBounds(mLabelBackground, labelRect));
+        drawSelf(canvas);
+    }
 
-        canvas.save();
-        canvas.rotate(calculateRotateDegree(mLabelGravity), centerCoordinate[0], centerCoordinate[1]);
-        mLabelBackground.draw(canvas);
-        canvas.restore();
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
 
-        // Draw text
-        Path bisectorPath = new Path();
-        int[] bisectorCoordinates = calculateBisectorCoordinates(mLabelDistance, mLabelHeight, mLabelGravity);
-        bisectorPath.moveTo(bisectorCoordinates[0], bisectorCoordinates[1]);
-        bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
-
-        mTextPaint.setTextSize(mLabelTextSize);
-        mTextPaint.setColor(mLabelTextColor);
-        float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight, mLabelGravity);
-        String displayText;
-        if (mLabelTextDirection == TextDirection.LEFT_TO_RIGHT) {
-            displayText = mLabelText;
-        } else {
-            displayText = new StringBuffer(mLabelText).reverse().toString();
-        }
-        canvas.drawTextOnPath(displayText, bisectorPath, offsets[0], offsets[1], mTextPaint);
-
+        drawSelf(canvas);
     }
 
     /**
@@ -443,6 +422,37 @@ public class LabelLayout extends FrameLayout {
         }
 
         return degree;
+    }
+
+    private void drawSelf(Canvas canvas) {
+        // Draw background
+        int[] centerCoordinate = calculateCenterCoordinate(mLabelDistance, mLabelHeight, mLabelGravity);
+        int labelHalfWidth = calculateWidth(mLabelDistance, mLabelHeight) / 2;
+        int labelHalfHeight = mLabelHeight / 2;
+        Rect labelRect = new Rect(centerCoordinate[0] - labelHalfWidth, centerCoordinate[1] - labelHalfHeight, centerCoordinate[0] + labelHalfWidth, centerCoordinate[1] + labelHalfHeight);
+        mLabelBackground.setBounds(calculateBackgroundBounds(mLabelBackground, labelRect));
+
+        canvas.save();
+        canvas.rotate(calculateRotateDegree(mLabelGravity), centerCoordinate[0], centerCoordinate[1]);
+        mLabelBackground.draw(canvas);
+        canvas.restore();
+
+        // Draw text
+        Path bisectorPath = new Path();
+        int[] bisectorCoordinates = calculateBisectorCoordinates(mLabelDistance, mLabelHeight, mLabelGravity);
+        bisectorPath.moveTo(bisectorCoordinates[0], bisectorCoordinates[1]);
+        bisectorPath.lineTo(bisectorCoordinates[2], bisectorCoordinates[3]);
+
+        mTextPaint.setTextSize(mLabelTextSize);
+        mTextPaint.setColor(mLabelTextColor);
+        float[] offsets = calculateTextOffsets(mLabelText, mTextPaint, mLabelDistance, mLabelHeight, mLabelGravity);
+        String displayText;
+        if (mLabelTextDirection == TextDirection.LEFT_TO_RIGHT) {
+            displayText = mLabelText;
+        } else {
+            displayText = new StringBuffer(mLabelText).reverse().toString();
+        }
+        canvas.drawTextOnPath(displayText, bisectorPath, offsets[0], offsets[1], mTextPaint);
     }
 
     public enum Gravity {
