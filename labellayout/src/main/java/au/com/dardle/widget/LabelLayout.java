@@ -18,6 +18,7 @@
 package au.com.dardle.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -25,7 +26,6 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.TintTypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -60,16 +60,16 @@ public class LabelLayout extends FrameLayout {
         // Enable 'onDraw()'
         setWillNotDraw(false);
 
-        TintTypedArray tintTypedArray = TintTypedArray.obtainStyledAttributes(context, attrs, R.styleable.LabelLayout);
-        mLabelDistance = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelDistance, 0);
-        mLabelHeight = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelHeight, 0);
-        mLabelBackground = tintTypedArray.getDrawable(R.styleable.LabelLayout_labelBackground);
-        mLabelGravity = Gravity.values()[tintTypedArray.getInt(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
-        mLabelText = tintTypedArray.getString(R.styleable.LabelLayout_labelText);
-        mLabelTextSize = tintTypedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, (int) new Paint().getTextSize());
-        mLabelTextColor = tintTypedArray.getColor(R.styleable.LabelLayout_labelTextColor, Color.BLACK);
-        mLabelTextDirection = TextDirection.values()[tintTypedArray.getInt(R.styleable.LabelLayout_labelTextDirection, TextDirection.LEFT_TO_RIGHT.ordinal())];
-        tintTypedArray.recycle();
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LabelLayout, defStyleAttr, 0);
+        mLabelDistance = typedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelDistance, 0);
+        mLabelHeight = typedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelHeight, 0);
+        mLabelBackground = typedArray.getDrawable(R.styleable.LabelLayout_labelBackground);
+        mLabelGravity = Gravity.values()[typedArray.getInt(R.styleable.LabelLayout_labelGravity, Gravity.TOP_LEFT.ordinal())];
+        mLabelText = typedArray.getString(R.styleable.LabelLayout_labelText);
+        mLabelTextSize = typedArray.getDimensionPixelSize(R.styleable.LabelLayout_labelTextSize, (int) new Paint().getTextSize());
+        mLabelTextColor = typedArray.getColor(R.styleable.LabelLayout_labelTextColor, Color.BLACK);
+        mLabelTextDirection = TextDirection.values()[typedArray.getInt(R.styleable.LabelLayout_labelTextDirection, TextDirection.LEFT_TO_RIGHT.ordinal())];
+        typedArray.recycle();
 
         // Setup text paint
         mTextPaint = new Paint();

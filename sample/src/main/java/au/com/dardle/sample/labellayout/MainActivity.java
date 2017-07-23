@@ -26,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        mLabelLayout = (LabelLayout) findViewById(R.id.label_layout);
+        mLabelLayout = findViewById(R.id.label_layout);
 
-        AppCompatSeekBar distanceSeekBar = (AppCompatSeekBar) findViewById(R.id.distance_seek_bar);
+        AppCompatSeekBar distanceSeekBar = findViewById(R.id.distance_seek_bar);
         distanceSeekBar.setProgress(mLabelLayout.getLabelDistance());
         distanceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatSeekBar heightSeekBar = (AppCompatSeekBar) findViewById(R.id.height_seek_bar);
+        AppCompatSeekBar heightSeekBar = findViewById(R.id.height_seek_bar);
         heightSeekBar.setProgress(mLabelLayout.getLabelHeight());
         heightSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatSpinner colorSpinner = (AppCompatSpinner) findViewById(R.id.color_spinner);
+        AppCompatSpinner colorSpinner = findViewById(R.id.color_spinner);
         ArrayAdapter<String> colorArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"Black", "Red", "Blue"});
         colorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         colorSpinner.setAdapter(colorArrayAdapter);
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatSpinner gravitySpinner = (AppCompatSpinner) findViewById(R.id.gravity_spinner);
+        AppCompatSpinner gravitySpinner = findViewById(R.id.gravity_spinner);
         ArrayAdapter<LabelLayout.Gravity> gravityArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LabelLayout.Gravity.values());
         gravityArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gravitySpinner.setAdapter(gravityArrayAdapter);
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        EditText editText = (EditText) findViewById(R.id.edit_text);
+        EditText editText = findViewById(R.id.edit_text);
         editText.setText(mLabelLayout.getLabelText());
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatSeekBar textSizeSeekBar = (AppCompatSeekBar) findViewById(R.id.text_size_seek_bar);
+        AppCompatSeekBar textSizeSeekBar = findViewById(R.id.text_size_seek_bar);
         textSizeSeekBar.setProgress(mLabelLayout.getLabelTextSize());
         textSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatSpinner textColorSpinner = (AppCompatSpinner) findViewById(R.id.text_color_spinner);
+        AppCompatSpinner textColorSpinner = findViewById(R.id.text_color_spinner);
         ArrayAdapter<String> textColorArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{"White", "Green", "Yellow"});
         textColorArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         textColorSpinner.setAdapter(textColorArrayAdapter);
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AppCompatSpinner directionSpinner = (AppCompatSpinner) findViewById(R.id.direction_spinner);
+        AppCompatSpinner directionSpinner = findViewById(R.id.direction_spinner);
         ArrayAdapter<LabelLayout.TextDirection> directionArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, LabelLayout.TextDirection.values());
         directionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         directionSpinner.setAdapter(directionArrayAdapter);
@@ -172,15 +172,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void update() {
-        AppCompatSeekBar distanceSeekBar = (AppCompatSeekBar) findViewById(R.id.distance_seek_bar);
-        AppCompatSeekBar heightSeekBar = (AppCompatSeekBar) findViewById(R.id.height_seek_bar);
-        AppCompatSpinner colorSpinner = (AppCompatSpinner) findViewById(R.id.color_spinner);
-        AppCompatSpinner gravitySpinner = (AppCompatSpinner) findViewById(R.id.gravity_spinner);
+        AppCompatSeekBar distanceSeekBar = findViewById(R.id.distance_seek_bar);
+        AppCompatSeekBar heightSeekBar = findViewById(R.id.height_seek_bar);
+        AppCompatSpinner colorSpinner = findViewById(R.id.color_spinner);
+        AppCompatSpinner gravitySpinner = findViewById(R.id.gravity_spinner);
 
-        EditText editText = (EditText) findViewById(R.id.edit_text);
-        AppCompatSeekBar textSizeSeekBar = (AppCompatSeekBar) findViewById(R.id.text_size_seek_bar);
-        AppCompatSpinner textColorSpinner = (AppCompatSpinner) findViewById(R.id.text_color_spinner);
-        AppCompatSpinner textDirectionSpinner = (AppCompatSpinner) findViewById(R.id.direction_spinner);
+        EditText editText = findViewById(R.id.edit_text);
+        AppCompatSeekBar textSizeSeekBar = findViewById(R.id.text_size_seek_bar);
+        AppCompatSpinner textColorSpinner = findViewById(R.id.text_color_spinner);
+        AppCompatSpinner textDirectionSpinner = findViewById(R.id.direction_spinner);
 
         mLabelLayout.setLabelDistance(distanceSeekBar.getProgress());
         mLabelLayout.setLabelHeight(heightSeekBar.getProgress());

@@ -49,7 +49,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Distance" />
+                    android:text="Distance"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/distance_seek_bar"
@@ -66,7 +67,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Height" />
+                    android:text="Height"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/height_seek_bar"
@@ -83,7 +85,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Color" />
+                    android:text="Color"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/color_spinner"
@@ -100,7 +103,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Label gravity" />
+                    android:text="Label gravity"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/gravity_spinner"
@@ -117,7 +121,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text" />
+                    android:text="Text"
+                    tools:ignore="HardcodedText" />
 
                 <EditText
                     android:id="@+id/edit_text"
@@ -135,7 +140,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text size" />
+                    android:text="Text size"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSeekBar
                     android:id="@+id/text_size_seek_bar"
@@ -152,7 +158,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text color" />
+                    android:text="Text color"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/text_color_spinner"
@@ -169,7 +176,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Label text direction" />
+                    android:text="Label text direction"
+                    tools:ignore="HardcodedText" />
 
                 <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/direction_spinner"
