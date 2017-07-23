@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 ext {
-    currentVersionCode = 2017021001
-    currentVersionName = '1.0.2'
+    currentVersionCode = 2017072300
+    currentVersionName = '1.0.3'
 
     groupId = 'au.com.dardle'
     artifactId = 'labellayout'
