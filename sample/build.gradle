@@ -9,8 +9,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         //noinspection HighAppVersionCode
-        versionCode 2017072300
-        versionName "1.0.2"
+        versionCode 2017090401
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
