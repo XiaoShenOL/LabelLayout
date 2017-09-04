@@ -1,4 +1,4 @@
-package au.com.dardle.sample.labellayout;
+package com.luxiliu.android.sample.labellayout;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,8 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
-import au.com.dardle.sample.R;
-import au.com.dardle.widget.LabelLayout;
+import com.luxiliu.android.widget.LabelLayout;
 
 public class MainActivity extends AppCompatActivity {
     private LabelLayout mLabelLayout;

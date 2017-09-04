@@ -15,7 +15,7 @@
  */
 
 
-package au.com.dardle.widget;
+package com.luxiliu.android.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.FrameLayout;
+
 
 /**
  * LabelLayout provides a label at the corner to display text

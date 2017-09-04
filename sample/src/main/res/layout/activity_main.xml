@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    tools:context="au.com.dardle.sample.labellayout.MainActivity">
+    tools:context="com.luxiliu.android.sample.labellayout.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <au.com.dardle.widget.LabelLayout
+        <com.luxiliu.android.widget.LabelLayout
             android:id="@+id/label_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                 android:layout_height="100dp"
                 android:background="@color/colorAccent" />
 
-        </au.com.dardle.widget.LabelLayout>
+        </com.luxiliu.android.widget.LabelLayout>
 
         <TableLayout
             android:layout_width="match_parent"
