@@ -55,33 +55,33 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 install {
     repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                groupId groupId
-                artifactId artifactId
+        pom.project {
+            name packageName
+            description packageDescription
+            url packageWebsite
+            inceptionYear '2017'
 
-                name packageName
-                description packageDescription
+            packaging 'aar'
+            groupId groupId
+            artifactId artifactId
+            version currentVersionName
+
+            licenses {
+                license {
+                    name packageLicenseName
+                    url packageLicenseUrl
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection packageVCS
+                developerConnection packageVCS
                 url packageWebsite
-
-                licenses {
-                    license {
-                        name packageName
-                        url packageLicenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        name 'Luxi Liu'
-                        email 'luxi.liu@gmail.com'
-                    }
-                }
-                scm {
-                    connection packageVCS
-                    developerConnection packageVCS
-                    url packageWebsite
+            }
+            developers {
+                developer {
+                    name 'Luxi Liu'
+                    email 'luxi.liu@gmail.com'
                 }
             }
         }
@@ -91,6 +91,7 @@ install {
 apply plugin: 'com.jfrog.bintray'
 
 version = currentVersionName
+group = groupId
 
 if (project.hasProperty("android")) { // Android libraries
     task sourcesJar(type: Jar) {
