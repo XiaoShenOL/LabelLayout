@@ -4,14 +4,17 @@ A powerful Android layout to display a label text on top of another view
 
 ![](https://cloud.githubusercontent.com/assets/22950288/21127972/0bf4a31c-c14b-11e6-9384-666fc77653c1.gif)
 
-[![Build Status](https://travis-ci.org/luxiliu/LabelLayout.svg?branch=develop)](https://travis-ci.org/luxiliu/LabelLayout)      [![Download](https://api.bintray.com/packages/luxiliu/maven/LabelLayout/images/download.svg)](https://bintray.com/luxiliu/maven/LabelLayout/_latestVersion)     [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.luxiliu.android.widget/labellayout)        [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-LabelLayout-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/4779)
+[![Build Status](https://travis-ci.org/luxiliu/LabelLayout.svg?branch=develop)](https://travis-ci.org/luxiliu/LabelLayout)
+[![Download](https://api.bintray.com/packages/luxiliu/maven/LabelLayout/images/download.svg)](https://bintray.com/luxiliu/maven/LabelLayout/_latestVersion)     
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout)        
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-LabelLayout-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/4779)
 
 
 Download
 --------
 Download via Gradle:
 ```groovy
-compile 'com.luxiliu.android.widget:labellayout:1.0.4'
+compile 'com.luxiliu.android.widget:labellayout:1.1.0'
 ```
 
 
@@ -35,6 +38,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
- [1]: https://search.maven.org/remote_content?g=com.luxiliu.android.widget&a=labellayout&v=LATEST
