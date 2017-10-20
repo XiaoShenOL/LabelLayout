@@ -6,7 +6,7 @@ A powerful Android layout to display a label text on top of another view
 
 [![Build Status](https://travis-ci.org/luxiliu/LabelLayout.svg?branch=develop)](https://travis-ci.org/luxiliu/LabelLayout)
 [![Download](https://api.bintray.com/packages/luxiliu/maven/LabelLayout/images/download.svg)](https://bintray.com/luxiliu/maven/LabelLayout/_latestVersion)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout)        
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.luxiliu/labellayout)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-LabelLayout-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/4779)
 
 
