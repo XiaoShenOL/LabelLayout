@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 
 ext {
-    currentVersionCode = 2017102001
-    currentVersionName = '1.1.0'
+    currentVersionCode = 2017112401
+    currentVersionName = '1.2.0'
 
     groupId = 'com.luxiliu'
     artifactId = 'labellayout'
