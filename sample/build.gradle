@@ -1,18 +1,19 @@
 apply plugin: 'com.android.application'
 
-//noinspection GroovyMissingReturnStatement
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
     defaultConfig {
         applicationId "com.luxiliu.android.sample.labellayout"
-        minSdkVersion 15
-        targetSdkVersion 27
-        //noinspection HighAppVersionCode
-        versionCode 2017112401
-        versionName "1.2.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     signingConfigs {
         release {
             storeFile file("release.keystore")
@@ -21,6 +22,7 @@ android {
             keyPassword LABELLAYOUT_SAMPLE_RELEASE_KEY_PASSWORD
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -31,11 +33,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'com.android.support:appcompat-v7:27.0.1'
-    testImplementation 'junit:junit:4.12'
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     implementation project(':labellayout')
 }
