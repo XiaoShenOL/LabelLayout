@@ -14,7 +14,7 @@ Download
 --------
 Download via Gradle:
 ```groovy
-compile 'com.luxiliu.android.widget:labellayout:1.1.0'
+compile 'com.luxiliu.android.widget:labellayout:1.3.0'
 ```
 
 
