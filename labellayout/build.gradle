@@ -116,8 +116,8 @@ artifacts {
 
 // Bintray
 bintray {
-    user = LABELLAYOUT_BINTRAY_USER
-    key = LABELLAYOUT_BINTRAY_APIKEY
+    user = BINTRAY_USER
+    key = BINTRAY_APIKEY
 
     configurations = ['archives']
     pkg {
@@ -133,7 +133,7 @@ bintray {
         version {
             gpg {
                 sign = true
-                passphrase = LABELLAYOUT_BINTRAY_GPS_PASSWORD
+                passphrase = BINTRAY_GPS_PASSWORD
             }
         }
     }
