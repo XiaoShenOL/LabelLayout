@@ -1,3 +1,7 @@
+Deprecated
+=
+LabelLayout is deprecated. No more development will be taking place. Thanks for all your support!
+
 LabelLayout
 =======
 A powerful Android layout to display a label text on top of another view
