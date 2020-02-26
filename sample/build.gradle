@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.compile_sdk_version
+    buildToolsVersion rootProject.build_tools_version
 
     defaultConfig {
         applicationId "com.luxiliu.android.sample.labellayout"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion rootProject.min_sdk_version
+        targetSdkVersion rootProject.target_sdk_version
+        versionCode rootProject.version_code
+        versionName rootProject.version_name
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -17,9 +17,9 @@ android {
     signingConfigs {
         release {
             storeFile file("release.keystore")
-            storePassword LABELLAYOUT_SAMPLE_RELEASE_STORE_PASSWORD
-            keyAlias LABELLAYOUT_SAMPLE_RELEASE_KEY_ALIAS
-            keyPassword LABELLAYOUT_SAMPLE_RELEASE_KEY_PASSWORD
+            storePassword "Xigua@866100"
+            keyAlias "labellayout"
+            keyPassword "Xigua@866100"
         }
     }
 
@@ -33,6 +33,6 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.androidx_appcompat_version"
     implementation project(':labellayout')
 }

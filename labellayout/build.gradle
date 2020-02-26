@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
 
 ext {
-    versionCode = rootProject.ext.versionCode
-    versionName = rootProject.ext.versionName
-
     groupId = 'com.luxiliu'
     artifactId = 'labellayout'
 
@@ -19,14 +16,14 @@ ext {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.compile_sdk_version
+    buildToolsVersion rootProject.build_tools_version
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode project.ext.versionCode
-        versionName project.ext.versionName
+        minSdkVersion rootProject.min_sdk_version
+        targetSdkVersion rootProject.target_sdk_version
+        versionCode rootProject.version_code
+        versionName rootProject.version_name
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -40,7 +37,7 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "androidx.appcompat:appcompat:$rootProject.androidx_appcompat_version"
 }
 
 // Maven
@@ -57,7 +54,7 @@ install {
             packaging 'aar'
             groupId project.ext.groupId
             artifactId project.ext.artifactId
-            version project.ext.versionName
+            version rootProject.version_name
 
             licenses {
                 license {
@@ -84,7 +81,7 @@ install {
 // Bintray
 apply plugin: 'com.jfrog.bintray'
 
-version = versionName
+version = rootProject.version_name
 group = groupId
 
 if (project.hasProperty("android")) { // Android libraries
