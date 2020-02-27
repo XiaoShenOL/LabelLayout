@@ -17,9 +17,9 @@ android {
     signingConfigs {
         release {
             storeFile file("release.keystore")
-            storePassword "Xigua@866100"
-            keyAlias "labellayout"
-            keyPassword "Xigua@866100"
+            storePassword System.getenv('LABELLAYOUT_SAMPLE_RELEASE_STORE_PASSWORD')
+            keyAlias System.getenv('LABELLAYOUT_SAMPLE_RELEASE_KEY_ALIAS')
+            keyPassword System.getenv('LABELLAYOUT_SAMPLE_RELEASE_KEY_PASSWORD')
         }
     }
 
