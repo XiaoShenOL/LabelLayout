@@ -113,8 +113,8 @@ artifacts {
 
 // Bintray
 bintray {
-    user = BINTRAY_USER
-    key = BINTRAY_APIKEY
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_API_KEY')
 
     configurations = ['archives']
     pkg {
@@ -130,7 +130,7 @@ bintray {
         version {
             gpg {
                 sign = true
-                passphrase = BINTRAY_GPS_PASSWORD
+                passphrase = System.getenv('BINTRAY_GPG_PASSPHASE')
             }
         }
     }
