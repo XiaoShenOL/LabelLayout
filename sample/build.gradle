@@ -16,7 +16,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("release.keystore")
+	    storeFile file("release.keystore")
             storePassword System.getenv('LABELLAYOUT_SAMPLE_RELEASE_STORE_PASSWORD')
             keyAlias System.getenv('LABELLAYOUT_SAMPLE_RELEASE_KEY_ALIAS')
             keyPassword System.getenv('LABELLAYOUT_SAMPLE_RELEASE_KEY_PASSWORD')
@@ -27,7 +27,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
         }
     }
 }

@@ -40,4 +40,6 @@ captures/
 # Keystore files
 *.jks
 
+# Sample
 sample/release
+sample/.DS_Store
