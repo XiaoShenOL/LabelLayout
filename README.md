@@ -12,15 +12,22 @@ A powerful Android layout to display a label text on top of another view
 
 Download
 --------
-Download via Gradle:
+Use Gradle:
 ```groovy
-compile 'com.luxiliu.android.widget:labellayout:1.5.0'
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    implementation 'com.luxiliu.android.widget:labellayout:1.5.0'
+}
 ```
 
 
 Sample app
 --------
-[![Sample app](https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.luxiliu.android.sample.labellayout&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+[![Sample app](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.luxiliu.android.sample.labellayout&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
 
 License

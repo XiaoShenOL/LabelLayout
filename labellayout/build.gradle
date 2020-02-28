@@ -1,20 +1,5 @@
 apply plugin: 'com.android.library'
 
-ext {
-    groupId = 'com.luxiliu'
-    artifactId = 'labellayout'
-
-    packageRepo = 'maven'
-    packageName = 'LabelLayout'
-    packageDescription = 'A layout to display a label text on top of another view'
-    packageWebsite = 'https://github.com/luxiliu/LabelLayout'
-    packageIssueTracker = 'https://github.com/luxiliu/LabelLayout/issues'
-    packageVCS = 'https://github.com/luxiliu/LabelLayout.git'
-    packageLicenses = ["Apache-2.0"]
-    packageLicenseName = 'The Apache License, Version 2.0'
-    packageLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-}
-
 android {
     compileSdkVersion rootProject.compile_sdk_version
     buildToolsVersion rootProject.build_tools_version
@@ -38,6 +23,22 @@ android {
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.androidx_appcompat_version"
+}
+
+// For publish
+ext {
+    groupId = 'com.luxiliu'
+    artifactId = 'labellayout'
+
+    packageRepo = 'maven'
+    packageName = 'LabelLayout'
+    packageDescription = 'A layout to display a label text on top of another view'
+    packageWebsite = 'https://github.com/luxiliu/LabelLayout'
+    packageIssueTracker = 'https://github.com/luxiliu/LabelLayout/issues'
+    packageVCS = 'https://github.com/luxiliu/LabelLayout.git'
+    packageLicenses = ["Apache-2.0"]
+    packageLicenseName = 'The Apache License, Version 2.0'
+    packageLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
 }
 
 // Maven
@@ -86,7 +87,7 @@ group = groupId
 
 if (project.hasProperty("android")) { // Android libraries
     task sourcesJar(type: Jar) {
-        classifier = 'sources'
+        archiveClassifier.set("sources")
         from android.sourceSets.main.java.srcDirs
     }
 
@@ -96,13 +97,13 @@ if (project.hasProperty("android")) { // Android libraries
     }
 } else { // Java libraries
     task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
+        archiveClassifier.set("sources")
         from sourceSets.main.allSource
     }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier.set("javadoc")
     from javadoc.destinationDir
 }
 
